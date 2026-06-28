@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+ // output   = "../app/generated/prisma" 
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  username  String
+}
+
+model passwordReset {
+  id        String   @id
+  email     String   @unique
+  code      String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
