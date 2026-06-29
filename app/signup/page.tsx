@@ -1,10 +1,10 @@
 
 
-// import SignIn  from "@/components/auth/signin";
+import SignIn from "@/components/auth/siginIn"
 
-// export  default function SignIn2  (){
-//   return(<>
-//   <SignIn/> 
-//   </>)
+export default function SignIn2  (){
+  return(<>
+  <SignIn/> 
+  </>)
  
-// }
+}
