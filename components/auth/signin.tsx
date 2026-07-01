@@ -17,7 +17,7 @@ const SignIn: React.FC = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('/api/SignIn', {
+      const res = await fetch('/api/signin', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -46,7 +46,7 @@ const SignIn: React.FC = () => {
   };
 
   const forgotPass = () => {
-    router.push('/forgotPassword');
+    router.push('/forgotpassword');
   };
 
   return (

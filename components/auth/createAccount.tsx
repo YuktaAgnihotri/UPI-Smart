@@ -33,7 +33,7 @@ const Login: React.FC = () => {
       // After successful registration
 if (res.ok) {
   // Don't await email in critical path
-  fetch('/api/sendEmail', {
+  fetch('/api/sendemail', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: userName, email }),
