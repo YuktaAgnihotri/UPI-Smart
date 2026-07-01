@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     
     const code = Math.floor(10000 + Math.random() * 90000).toString();
 
-    console.log(code);
+    console.log( "recovery code is " , code);
     
     await prisma.passwordReset.deleteMany({ where: { email } });
 

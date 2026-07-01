@@ -6,7 +6,7 @@ export async function POST(req:Request) : Promise<NextResponse>{
     try {
         const body = await req.json();
         const parsed = signInSchema.safeParse(body);
-         
+         console.log("inside router siginin will be  parsing data")
       if(!parsed.success){
         
         return NextResponse.json( { message: "Invalid input", errors: parsed.error.flatten().fieldErrors },

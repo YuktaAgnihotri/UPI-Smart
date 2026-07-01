@@ -39,7 +39,7 @@ const SignIn: React.FC = () => {
 
       router.push('/user');
     } catch (err) {
-      setErrors({ form: ['Network error, please try again'] });
+      setErrors({ err: ['Network error, please try again'] });
     } finally {
       setLoading(false);
     }
