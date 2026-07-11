@@ -36,7 +36,7 @@ export const useUserStore = create<UserState>((set) => ({
       });
 
       if (!res.ok) {
-         console.log("res was not feeling ok")
+         console.log("res was not feeling ok in userstore")
         throw new Error(`HTTP ${res.status}: Failed to fetch user`);
       }
 

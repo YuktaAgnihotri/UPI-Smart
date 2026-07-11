@@ -42,7 +42,7 @@ if (res.ok) {
   
   alert("Registration successful!"); // or use a toast
  
-  router.push('/user');
+  router.push('/dashboard/user');
 }
       
     } catch (err) {

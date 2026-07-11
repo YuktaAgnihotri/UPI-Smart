@@ -37,6 +37,7 @@ export async function GET(req: NextRequest) {
         )
     }
     if (!userId) {
+        console.log("userId not parsed ")
       return NextResponse.json(
         { message: "Malformed session token" },
         { status: 400 }
@@ -65,7 +66,7 @@ export async function GET(req: NextRequest) {
         { status: 404 }
       );
     }
-
+    console.log("sending data successfully from fetch user")
     return NextResponse.json(user);
 
   } catch (error) {
@@ -76,3 +77,4 @@ export async function GET(req: NextRequest) {
     );
   }
 }
+

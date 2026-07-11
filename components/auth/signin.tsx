@@ -42,7 +42,7 @@ const {fetchUser} = useUserStore();
     //     body: JSON.stringify({ email }),
     //   });
 
-      router.push('/user');
+      router.push('/dashboard/user');
       //router.refresh();
     } catch (err) {
       setErrors({ err: ['Network error, please try again'] });

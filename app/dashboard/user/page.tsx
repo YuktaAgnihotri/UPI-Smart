@@ -9,6 +9,7 @@ const UserPage: React.FC = () => {
   return (
     <div>
      <NavBar/>
+     
     </div>
     
   );
