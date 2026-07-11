@@ -119,7 +119,7 @@ const ForgotPassword: React.FC = () => {
       router.push('/signup');
 
     } catch (error) {
-      setErrors({ form: ['Something went wrong'] });
+      setErrors({ error: ['Something went wrong'] });
     } finally {
       setLoading(false);
     }

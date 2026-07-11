@@ -1,9 +1,17 @@
+'use client';
 
+import React, { useEffect } from "react";
+import { useUserStore } from "@/store/userstore";
+import NavBar from "@/components/user_nav/user_navbar";
 
-const Login: React.FC = () => {
+const UserPage: React.FC = () => {
+ 
+  return (
+    <div>
+     <NavBar/>
+    </div>
+    
+  );
+};
 
-return(<>
-<h1> Welcome back</h1>
-</>)
-}
-export default Login;
+export default UserPage;

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useUserStore } from '@/store/userstore';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,6 +11,7 @@ const SignIn: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
+const {fetchUser} = useUserStore();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,14 +23,17 @@ const SignIn: React.FC = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
+        credentials:'include',
       });
 
       const data = await res.json();
 
       if (!res.ok) {
+        console.log("res was not feeling ok")
         setErrors(data.errors ?? { form: [data.message ?? 'Something went wrong'] });
         return;
       }
+      await fetchUser();
 
     //   // Call recovery code if needed
     //   fetch('/api/recoveryCode', {
@@ -38,6 +43,7 @@ const SignIn: React.FC = () => {
     //   });
 
       router.push('/user');
+      //router.refresh();
     } catch (err) {
       setErrors({ err: ['Network error, please try again'] });
     } finally {
