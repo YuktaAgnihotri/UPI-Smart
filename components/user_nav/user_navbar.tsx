@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { useUserStore } from "@/store/userstore";
 import MonthlyReports from "@/app/dashboard/monthylreport.tsx/page"; 
-import AnalyzeReports from "@/app/dashboard/analyzereport.tsx/page"; 
+import AnalyzeReports from "@/app/dashboard/analyzereport/page"; 
 
 const NavBar: React.FC = () => {
   const { user, loading, error, fetchUser } = useUserStore();

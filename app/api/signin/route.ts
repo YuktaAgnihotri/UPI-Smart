@@ -32,7 +32,7 @@ export async function POST(req: Request) {
             return NextResponse.json({ message: "Incorrect password" }, { status: 400 });
         }
         console.log("compared passwords")
-        // Create a better session token (use crypto for security)
+        // Create a better session token (use crypto for security) even better to use user id
         const sessionToken = existingUser.id; // Best way in modern Node.js
 
         // Remove password from response
