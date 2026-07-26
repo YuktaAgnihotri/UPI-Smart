@@ -43,7 +43,9 @@ export  async function POST(req: Request) : Promise<NextResponse>{
     })
 
     //start bcrypting 
-    return NextResponse.json({user:newUser , message: "usercreated succesfully"} , {status: 201})
+    return NextResponse.json({
+        user:newUser , message: "usercreated succesfully"} ,
+         {status: 201})
     } catch (error) {
         console.error("[REGISTER_ERROR]", error);
         return NextResponse.json({message: "invalid cant get inside login.ts"},

@@ -14,6 +14,8 @@ model User {
   password  String
   createdAt DateTime @default(now())
   username  String
+
+  dailyanalyzedReport DailyanalyzedReport[]
 }
 
 model passwordReset {
@@ -24,4 +26,22 @@ model passwordReset {
   createdAt DateTime @default(now())
 
   @@index([email])
+}
+
+model DailyanalyzedReport{
+  id      String   @id @default(cuid())
+  userId     String   
+  date String //YYYY-MM-DD
+ transactions Json 
+ summary Json
+ userNotes     String?
+  insights String
+  suggestions Json
+  savingTips Json
+  createdAt DateTime @default(now())
+user User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, date])
+
 }

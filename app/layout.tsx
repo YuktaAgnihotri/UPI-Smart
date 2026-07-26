@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { startCleanupJob } from "@/lib/cloudinaryCleanup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,6 +23,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  if (process.env.NODE_ENV === 'production') {
+    startCleanupJob();
+  }
+
   return (
     <html
       lang="en"

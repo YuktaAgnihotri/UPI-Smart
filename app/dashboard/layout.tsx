@@ -18,10 +18,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+  children,}: Readonly<{
+  children: React.ReactNode;}>) {
+     
+
+
   return (
       <div className="dashboard-layout">
       {children}

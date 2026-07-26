@@ -6,8 +6,8 @@ import crypto from 'crypto';
 import { v2 as cloudinary, UploadStream } from 'cloudinary';
 import sharp from 'sharp';
 import { cookies } from 'next/headers';
-import { rejects } from 'assert';
-
+import { connectToDatabase } from '@/lib/dbConnect';
+import Media from '@/app/models/media';
 
 // Configure Cloudinary (use environment variables - NEVER hardcode secrets)
 cloudinary.config({
@@ -27,6 +27,9 @@ const cookieStore = await cookies();
     return { success: false, error: 'Unauthorized to upload file' };
   }
    console.log("session verfied by cookies")
+
+     //'user_2x9A8kL0'
+   const currentUserId = token;
   const file = formData.get('file') as File;
 
   if (!file) {
@@ -35,19 +38,30 @@ const cookieStore = await cookies();
   }
   console.log("file was found correctly")
 
+
+
   // Validate file type
   const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
   if (!allowedTypes.includes(file.type)) {
     return { success: false, error: 'Invalid file type only jpeg , png gif webp allowed' };
   }
   console.log("You've entered correct file format")
+
+
   // Validate file size (5MB limit)
   const maxSize = 5 * 1024 * 1024;
   if (file.size > maxSize) {
     return { success: false, error: 'File too large (max 5MB)' };
   }
  console.log("file sized")
+
+
   try {
+
+    //coonect to db 
+    await connectToDatabase();
+
+
     // Convert File to Buffer
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
@@ -94,22 +108,45 @@ const processedBuffer = await image
     }
     console.log("using sharp image EXIF removed and resized file")
     
+const fileHash = crypto
+      .createHash('sha256')
+      .update(outputBuffer)
+      .digest('hex');
+
+    // 4. CHECK MONGO DB: Has this exact file already been uploaded?
+    const existingMedia = await Media.findOne({ hash: fileHash });
+  
+  if (existingMedia) {
+      console.log(`Duplicate detected! Reusing asset uploaded by user ${existingMedia.userId}`);
     
+
+      // Generate temporary signed URL for the existing asset
+      const signedUrl = cloudinary.url(existingMedia.publicId, {
+        sign_url: true,
+        expires_at: Math.floor(Date.now() / 1000) + 60 * 60 * 24, // 24 Hours
+        resource_type: 'image',
+        type: 'authenticated',
+        format: existingMedia.format,
+      });
+
+      return {
+        success: true,
+        isDuplicate: true,
+        url: signedUrl,
+        publicId: existingMedia.publicId,
+        mediaId: existingMedia._id.toString(),
+        createdAt: existingMedia.createdAt,
+      };
+    }
+
     // Create unique filename
-    const ext = path.extname(file.name) || 'jpg';
-    const baseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
-    const uniqueName = `${baseName}-${crypto.randomUUID()}`;
+    // const ext = path.extname(file.name) || 'jpg';
+    // const baseName = path.basename(file.name, ext).replace(/[^a-zA-Z0-9_-]/g, '_');
+    // const uniqueName = `${baseName}-${crypto.randomUUID()}`;
 
-
+const uniqueName = `img_${fileHash.substring(0, 16)}`
     console.log("createding unique name" , uniqueName)
-    // // Ensure upload directory exists
-    // const uploadDir = path.join(process.cwd(), 'public', 'uploads');
-    // await mkdir(uploadDir, { recursive: true });
-
-    // // Write file to disk
-    // const filePath = path.join(uploadDir, uniqueName);
-    // await writeFile(filePath, buffer);
-
+    
     //uploading to cloud
 
 const folderName = 'public/uploads';
@@ -149,14 +186,30 @@ const signedUrl = cloudinary.url(uploadResult.public_id, {
   type: 'authenticated',
 });
 console.log('Cloudinary Saved Public ID:', uploadResult.public_id);
-return {
+
+
+// === SAVE TO MONGODB ===
+const newMedia = new Media({
+  userId: currentUserId,
+  hash: fileHash,
+  publicId: uploadResult.public_id,
+  url: signedUrl,
+  filename: file.name,
+  format: 'jpg',           // or uploadResult.format
+  size: outputBuffer.length,
+});
+
+await newMedia.save();
+
+console.log('New media saved to MongoDB:', newMedia._id);
+    return {
   success: true,
   url: signedUrl,           // This is now time-limited
   publicId: uploadResult.public_id,
+  mediaId: newMedia._id.toString(),
 };
-    
   } catch (error) {
     console.error('Upload error:', error);
-    return { success: false, error: 'Upload failed' };
+    return { success: false, error: 'Upload failed  same image exsists' };
   }
 }
