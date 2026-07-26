@@ -27,10 +27,10 @@ export async function  POST(req:Request): Promise<NextResponse>{
     } catch {
       currentUserId = token;
     } 
-      console.log("User ID:", currentUserId);
+      console.log("User ID: got it ");
 
     const body = await req.json();
- console.log("Received body:", body);
+ console.log("Received body:");
       // const {   transactions, summary, userNotes, insights, suggestions, savingTips } = parsed.data;
 
        if (!body.transactions || !body.summary) {
