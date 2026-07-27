@@ -40,7 +40,8 @@ export async function  POST(req:Request): Promise<NextResponse>{
         { status: 400 }
       );
     }
-   
+
+    
 
     const newanalysis = await prisma.dailyanalyzedReport.create({
         data: {
