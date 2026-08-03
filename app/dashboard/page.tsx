@@ -1,9 +1,13 @@
+import HeroPg from "@/components/herosection/Hero";
 import Navbar from "@/components/navbar/navbar";
-import Link from "next/link";
+import Footer from "@/components/footersection/footer";
+
 export default function Dashboard  (){
      return(
         <>
         <Navbar/>
+        <HeroPg/>
+        <Footer/>
         </>
      )
    

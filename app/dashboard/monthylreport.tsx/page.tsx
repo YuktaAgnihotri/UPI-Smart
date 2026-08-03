@@ -3,7 +3,7 @@
 
 const MonthlyReports :  React.FC  = ()=>{
      return(<>
-         <div> Welome inside monthly report</div>     
+         <div>  monthly reports comming soon </div>     
      </>)
 }
 export default MonthlyReports;
