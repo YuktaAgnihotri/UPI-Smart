@@ -23,7 +23,7 @@ const cookieStore = await cookies();
   const token = cookieStore.get('session-token')?.value; // Replace 'session_token' with your cookie name
 
   if (!token) {
-    console.log("!token")
+    console.log(" no token")
     return { success: false, error: 'Unauthorized to upload file' };
   }
    console.log("session verfied by cookies")
@@ -33,7 +33,7 @@ const cookieStore = await cookies();
   const file = formData.get('file') as File;
 
   if (!file) {
-    console.log(!file)
+   // console.log( file)
     return { success: false, error: 'No file provided' };
   }
   console.log("file was found correctly")
@@ -117,7 +117,7 @@ const fileHash = crypto
     const existingMedia = await Media.findOne({ hash: fileHash });
   
   if (existingMedia) {
-      console.log(`Duplicate detected! Reusing asset uploaded by user ${existingMedia.userId}`);
+      console.log(`Duplicate detected! Reusing asset uploaded by user `);
     
 
       // Generate temporary signed URL for the existing asset
@@ -145,7 +145,7 @@ const fileHash = crypto
     // const uniqueName = `${baseName}-${crypto.randomUUID()}`;
 
 const uniqueName = `img_${fileHash.substring(0, 16)}`
-    console.log("createding unique name" , uniqueName)
+    console.log("createding unique name" )
     
     //uploading to cloud
 
@@ -185,7 +185,7 @@ const signedUrl = cloudinary.url(uploadResult.public_id, {
   resource_type: 'image',
   type: 'authenticated',
 });
-console.log('Cloudinary Saved Public ID:', uploadResult.public_id);
+console.log('Cloudinary Saved Public ID:');
 
 
 // === SAVE TO MONGODB ===
@@ -201,7 +201,7 @@ const newMedia = new Media({
 
 await newMedia.save();
 
-console.log('New media saved to MongoDB:', newMedia._id);
+console.log('New media saved to MongoDB:');
     return {
   success: true,
   url: signedUrl,           // This is now time-limited
