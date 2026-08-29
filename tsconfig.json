@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "app/dashboard/analyzereport"  ],
+, "app/dashboard/analyzereport", "app/dashboard/monthylreport"  ],
   "exclude": ["node_modules"]
 }

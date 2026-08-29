@@ -12,7 +12,7 @@ export const signInSchema = z.object({
 });
 
 // ================== TRANSACTION SCHEMA ==================
-const TransactionSchema = z.object({
+export const TransactionSchema = z.object({
   date: z.string(),
   amount: z.number(),
   merchant: z.string(),

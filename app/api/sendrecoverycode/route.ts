@@ -17,7 +17,7 @@ export async function POST(req: Request) {
     
     await prisma.passwordReset.deleteMany({ where: { email } });
 
-    
+    console.log("deleted old rec");
     await prisma.passwordReset.create({
       data:{
         email, 

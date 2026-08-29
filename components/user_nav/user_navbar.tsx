@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 import { useUserStore } from "@/store/userstore";
-import MonthlyReports from "@/app/dashboard/monthylreport.tsx/page"; 
+import MonthlyReports from "@/app/dashboard/monthylreport/page"; 
 import AnalyzeReports from "@/app/dashboard/analyzereport/page"; 
 
 const NavBar: React.FC = () => {
@@ -23,10 +24,10 @@ const NavBar: React.FC = () => {
   if (!user) return <div className="p-6">Please sign in first.</div>;
 
   return (
-    <div className="relative min-h-screen bg-gray-50 text-gray-800">
+    <div className="relative min-h-screen bg-gray-900 text-gray-50">
       
       {/* 1. MAIN NAVIGATION BAR */}
-      <nav className="p-4 flex justify-between items-center bg-white border-b shadow-sm">
+      <nav className="p-4 flex justify-between items-center  border-b shadow-sm">
         <h1 className="font-bold text-lg">Hello, {user.username || 'User'}!</h1>
         
         <div className="flex gap-4 items-center">
@@ -41,7 +42,9 @@ const NavBar: React.FC = () => {
             onClick={() => setActiveTab('monthly')} 
             className={`px-3 py-2 rounded-md ${activeTab === 'monthly' ? 'bg-green-100 text-green-700 font-semibold' : 'hover:bg-gray-100'}`}
           >
-            Monthly Reports
+       <Link href="/dashboard/monthylreport">
+         View Monthly Reports
+       </Link>            
           </button>
           
           <button 
@@ -70,15 +73,21 @@ const NavBar: React.FC = () => {
           <button onClick={() => setIsProfileOpen(false)} className="text-gray-400 hover:text-gray-600 text-xl">✕</button>
         </div>
         <ul className="space-y-4 text-gray-600 font-medium">
-          <li className="cursor-pointer hover:text-black">User Information</li>
-          <li className="cursor-pointer hover:text-black">Settings</li>
-          <li className="cursor-pointer hover:text-black">Contact Us</li>
+          <li className="cursor-pointer hover:text-black"><Link href ='/dashboard/userinformation'> User Information </Link></li>
+          <li className="cursor-pointer hover:text-black"><Link href ='/dashboard/settings'> Settings </Link></li>
+
+          <li className="cursor-pointer hover:text-black"><Link href ='/dashboard/contact'> Contact Us </Link></li>
+          <li className="cursor-pointer hover:text-black"> </li>
         </ul>
       </div>
 
       {/* 4. CONTENT AREA (Renders page based on active tab) */}
       <main className="p-6">
-        {activeTab === 'analyze' ? <AnalyzeReports /> : <MonthlyReports />}
+        {activeTab === 'analyze' ? <AnalyzeReports /> : <nav>
+       <Link href="/dashboard/monthylreport">
+         View Monthly Reports
+       </Link>
+    </nav> }
       </main>
 
     </div>
